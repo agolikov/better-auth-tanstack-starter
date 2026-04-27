@@ -9,11 +9,21 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as NotesRouteImport } from './routes/notes'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthPathRouteImport } from './routes/auth/$path'
+import { Route as ApiNotesRouteImport } from './routes/api/notes'
+import { Route as ApiAttachmentsRouteImport } from './routes/api/attachments'
 import { Route as AccountPathRouteImport } from './routes/account/$path'
+import { Route as ApiStorageUploadUrlRouteImport } from './routes/api/storage/upload-url'
+import { Route as ApiStorageDownloadUrlRouteImport } from './routes/api/storage/download-url'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
+const NotesRoute = NotesRouteImport.update({
+  id: '/notes',
+  path: '/notes',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -24,9 +34,29 @@ const AuthPathRoute = AuthPathRouteImport.update({
   path: '/auth/$path',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiNotesRoute = ApiNotesRouteImport.update({
+  id: '/api/notes',
+  path: '/api/notes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAttachmentsRoute = ApiAttachmentsRouteImport.update({
+  id: '/api/attachments',
+  path: '/api/attachments',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AccountPathRoute = AccountPathRouteImport.update({
   id: '/account/$path',
   path: '/account/$path',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiStorageUploadUrlRoute = ApiStorageUploadUrlRouteImport.update({
+  id: '/api/storage/upload-url',
+  path: '/api/storage/upload-url',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiStorageDownloadUrlRoute = ApiStorageDownloadUrlRouteImport.update({
+  id: '/api/storage/download-url',
+  path: '/api/storage/download-url',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
@@ -37,40 +67,95 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/notes': typeof NotesRoute
   '/account/$path': typeof AccountPathRoute
+  '/api/attachments': typeof ApiAttachmentsRoute
+  '/api/notes': typeof ApiNotesRoute
   '/auth/$path': typeof AuthPathRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/storage/download-url': typeof ApiStorageDownloadUrlRoute
+  '/api/storage/upload-url': typeof ApiStorageUploadUrlRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/notes': typeof NotesRoute
   '/account/$path': typeof AccountPathRoute
+  '/api/attachments': typeof ApiAttachmentsRoute
+  '/api/notes': typeof ApiNotesRoute
   '/auth/$path': typeof AuthPathRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/storage/download-url': typeof ApiStorageDownloadUrlRoute
+  '/api/storage/upload-url': typeof ApiStorageUploadUrlRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/notes': typeof NotesRoute
   '/account/$path': typeof AccountPathRoute
+  '/api/attachments': typeof ApiAttachmentsRoute
+  '/api/notes': typeof ApiNotesRoute
   '/auth/$path': typeof AuthPathRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/storage/download-url': typeof ApiStorageDownloadUrlRoute
+  '/api/storage/upload-url': typeof ApiStorageUploadUrlRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/account/$path' | '/auth/$path' | '/api/auth/$'
+  fullPaths:
+    | '/'
+    | '/notes'
+    | '/account/$path'
+    | '/api/attachments'
+    | '/api/notes'
+    | '/auth/$path'
+    | '/api/auth/$'
+    | '/api/storage/download-url'
+    | '/api/storage/upload-url'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/account/$path' | '/auth/$path' | '/api/auth/$'
-  id: '__root__' | '/' | '/account/$path' | '/auth/$path' | '/api/auth/$'
+  to:
+    | '/'
+    | '/notes'
+    | '/account/$path'
+    | '/api/attachments'
+    | '/api/notes'
+    | '/auth/$path'
+    | '/api/auth/$'
+    | '/api/storage/download-url'
+    | '/api/storage/upload-url'
+  id:
+    | '__root__'
+    | '/'
+    | '/notes'
+    | '/account/$path'
+    | '/api/attachments'
+    | '/api/notes'
+    | '/auth/$path'
+    | '/api/auth/$'
+    | '/api/storage/download-url'
+    | '/api/storage/upload-url'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  NotesRoute: typeof NotesRoute
   AccountPathRoute: typeof AccountPathRoute
+  ApiAttachmentsRoute: typeof ApiAttachmentsRoute
+  ApiNotesRoute: typeof ApiNotesRoute
   AuthPathRoute: typeof AuthPathRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
+  ApiStorageDownloadUrlRoute: typeof ApiStorageDownloadUrlRoute
+  ApiStorageUploadUrlRoute: typeof ApiStorageUploadUrlRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/notes': {
+      id: '/notes'
+      path: '/notes'
+      fullPath: '/notes'
+      preLoaderRoute: typeof NotesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -85,11 +170,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthPathRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/notes': {
+      id: '/api/notes'
+      path: '/api/notes'
+      fullPath: '/api/notes'
+      preLoaderRoute: typeof ApiNotesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/attachments': {
+      id: '/api/attachments'
+      path: '/api/attachments'
+      fullPath: '/api/attachments'
+      preLoaderRoute: typeof ApiAttachmentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/account/$path': {
       id: '/account/$path'
       path: '/account/$path'
       fullPath: '/account/$path'
       preLoaderRoute: typeof AccountPathRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/storage/upload-url': {
+      id: '/api/storage/upload-url'
+      path: '/api/storage/upload-url'
+      fullPath: '/api/storage/upload-url'
+      preLoaderRoute: typeof ApiStorageUploadUrlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/storage/download-url': {
+      id: '/api/storage/download-url'
+      path: '/api/storage/download-url'
+      fullPath: '/api/storage/download-url'
+      preLoaderRoute: typeof ApiStorageDownloadUrlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/auth/$': {
@@ -104,9 +217,14 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  NotesRoute: NotesRoute,
   AccountPathRoute: AccountPathRoute,
+  ApiAttachmentsRoute: ApiAttachmentsRoute,
+  ApiNotesRoute: ApiNotesRoute,
   AuthPathRoute: AuthPathRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
+  ApiStorageDownloadUrlRoute: ApiStorageDownloadUrlRoute,
+  ApiStorageUploadUrlRoute: ApiStorageUploadUrlRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
